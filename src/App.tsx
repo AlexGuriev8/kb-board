@@ -1,5 +1,8 @@
+import CustomLayout from './components/custom-layout';
+import './index.css';
+
 function App() {
-  return <div>App</div>;
+  return <CustomLayout />;
 }
 
 export default App;
