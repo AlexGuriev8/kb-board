@@ -40,6 +40,15 @@ const LayoutWrapper = styled.section`
     }
   }
 
+  .dark,
+  .light {
+    background-color: #635fc7;
+
+    svg {
+      fill: #9f9f9f;
+    }
+  }
+
   .content {
     height: 100%;
     display: flex;
@@ -64,17 +73,28 @@ const LayoutWrapper = styled.section`
       align-items: center;
     }
 
-    &_hide {
+    &_hide-button {
+      display: flex;
+      align-items: center;
       width: -webkit-fill-available;
-      margin: 0 20px;
-      padding: 25px 0;
+
+      span {
+        margin-left: 10px;
+      }
+    }
+
+    &_show-button {
+      position: absolute;
+      bottom: 10%;
+      left: 0;
+    }
+
+    &_button-wrapper {
+      width: -webkit-fill-available;
+      margin: 0 20px 0 0;
       display: flex;
       align-items: center;
       cursor: pointer;
-
-      span {
-        margin-left: 8px;
-      }
     }
 
     &_info {

@@ -24,6 +24,7 @@ module.exports = {
     'prefer-regex-literals': 0,
     'react/function-component-definition': 0,
     'jsx-a11y/label-has-associated-control': 0,
+    'react/require-default-props': 0,
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     '@emotion/jsx-import': 'error',
     '@emotion/pkg-renaming': 'error',

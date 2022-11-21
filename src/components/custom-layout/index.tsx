@@ -12,6 +12,7 @@ import { useThemeContext } from '../../themes/switch-theme-provider';
 import Tasks from '../tasks';
 import { Modes } from '../../themes/types';
 import SidebarBoards from '../sidebar-boards';
+import Button from '../button';
 
 const CustomLayout = () => {
   const [show, setShow] = useState(true);
@@ -25,7 +26,7 @@ const CustomLayout = () => {
         </div>
         <div className="header_menu">
           <div>Platform Launch</div>
-          <button type="button">Add new task </button>
+          <Button>+ Add New Task</Button>
         </div>
       </header>
       <main className="content">
@@ -33,14 +34,16 @@ const CustomLayout = () => {
           <SidebarBoards />
           <div className="content_actions">
             <SwitchTheme />
-            <button
-              type="button"
-              className="content_hide"
-              onClick={() => setShow(false)}
-            >
-              <HideSidebarEye />
-              <span>Hide Sidebar</span>
-            </button>
+            <div className="content_button-wrapper">
+              <Button
+                onClick={() => setShow(false)}
+                className="content_hide-button"
+                asLink
+              >
+                <HideSidebarEye />
+                <span>Hide Sidebar</span>
+              </Button>
+            </div>
           </div>
         </div>
         <div className="content_info">
@@ -48,17 +51,13 @@ const CustomLayout = () => {
         </div>
       </main>
       {!show && (
-        <button
-          type="button"
+        <Button
+          asLink
           onClick={() => setShow(true)}
-          style={{
-            position: 'absolute',
-            bottom: 40,
-            left: 0,
-          }}
+          className={`content_show-button ${mode}`}
         >
           <ShowSidebarEye />
-        </button>
+        </Button>
       )}
     </LayoutWrapper>
   );
