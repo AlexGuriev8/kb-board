@@ -8,16 +8,15 @@ import {
 } from '../icons';
 import LayoutWrapper from './styles';
 import SwitchTheme from '../switch-theme';
-import { useThemeContext } from '../../themes/switch-theme-provider';
 import Tasks from '../tasks';
 import { Modes } from '../../themes/types';
-import SidebarBoards from '../sidebar-boards';
 import Button from '../button';
+import SidebarBoards from '../sidebar-boards';
+import { useStore } from '../../store/createStoreContext';
 
 const CustomLayout = () => {
   const [show, setShow] = useState(true);
-  const { mode } = useThemeContext();
-
+  const [mode] = useStore((store) => store.mode);
   return (
     <LayoutWrapper display={show ? 'flex' : 'none'}>
       <header className="header">

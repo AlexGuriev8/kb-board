@@ -25,6 +25,7 @@ module.exports = {
     'react/function-component-definition': 0,
     'jsx-a11y/label-has-associated-control': 0,
     'react/require-default-props': 0,
+    'react/jsx-no-useless-fragment': 0,
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     '@emotion/jsx-import': 'error',
     '@emotion/pkg-renaming': 'error',

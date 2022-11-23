@@ -1,14 +1,14 @@
-import { useThemeContext } from '../../themes/switch-theme-provider';
 import { LightTheme, DarkTheme } from '../icons';
 
 import SwitchWrapper from './styles';
 import { Modes } from '../../themes/types';
+import { useStore } from '../../store/createStoreContext';
 
 const SwitchTheme = () => {
-  const { mode, setMode } = useThemeContext();
-
+  const [mode, setStore] = useStore((store) => store.mode);
   const onChange = () => {
-    setMode(mode === Modes.dark ? Modes.light : Modes.dark);
+    const sMode = mode === Modes.dark ? Modes.light : Modes.dark;
+    setStore({ mode: sMode });
   };
 
   return (

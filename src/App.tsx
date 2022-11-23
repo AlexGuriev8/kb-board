@@ -1,13 +1,13 @@
-import SwitchThemeProvider from './themes/switch-theme-provider';
+import { StoreProvider } from './store/createStoreContext';
 import ThemeWrapper from './themes/theme-wrapper';
 
 import './index.css';
 
 function App() {
   return (
-    <SwitchThemeProvider>
+    <StoreProvider>
       <ThemeWrapper />
-    </SwitchThemeProvider>
+    </StoreProvider>
   );
 }
 
