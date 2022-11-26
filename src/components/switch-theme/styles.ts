@@ -6,7 +6,7 @@ const SwitchWrapper = styled.div`
   justify-content: center;
   background-color: ${(props) => props.theme.colors.switchBgColor};
   width: -webkit-fill-available;
-  margin: 0 20px 10px;
+  margin: 0 15px 10px;
   padding: 15px;
 
   .switch {

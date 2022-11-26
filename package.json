@@ -15,6 +15,8 @@
     "emotion-theming": "^11.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-transition-group": "^4.4.2",
+    "uuid": "^9.0.0",
     "vite-plugin-imp": "^2.2.0"
   },
   "devDependencies": {
@@ -22,6 +24,8 @@
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
+    "@types/react-transition-group": "^4.4.5",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
     "@vitejs/plugin-react": "^2.2.0",

@@ -12,8 +12,13 @@ const COLOR = {
     }
   `,
   secondary: css`
-    color: #000;
-    background: linear-gradient(#c7c7d2, #bcbaba);
+    color: #635fc7;
+    background: #efeff9;
+
+    &:hover {
+      background-color: #a8a4ff;
+      color: #efeff9;
+    }
   `,
 };
 

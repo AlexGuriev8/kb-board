@@ -1,5 +1,5 @@
 import { StoreProvider } from './store/createStoreContext';
-import ThemeWrapper from './themes/theme-wrapper';
+import ThemeWrapper from './theme/theme-wrapper';
 
 import './index.css';
 

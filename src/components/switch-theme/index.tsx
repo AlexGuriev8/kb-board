@@ -1,7 +1,7 @@
 import { LightTheme, DarkTheme } from '../icons';
 
 import SwitchWrapper from './styles';
-import { Modes } from '../../themes/types';
+import { Modes } from '../../theme/types';
 import { useStore } from '../../store/createStoreContext';
 
 const SwitchTheme = () => {

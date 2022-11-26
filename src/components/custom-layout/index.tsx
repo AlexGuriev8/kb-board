@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
+import { CSSTransition } from 'react-transition-group';
 import {
   HideSidebarEye,
   KanbanLogoDark,
@@ -9,7 +10,7 @@ import {
 import LayoutWrapper from './styles';
 import SwitchTheme from '../switch-theme';
 import Tasks from '../tasks';
-import { Modes } from '../../themes/types';
+import { Modes } from '../../theme/types';
 import Button from '../button';
 import SidebarBoards from '../sidebar-boards';
 import { useStore } from '../../store/createStoreContext';
@@ -17,6 +18,7 @@ import { useStore } from '../../store/createStoreContext';
 const CustomLayout = () => {
   const [show, setShow] = useState(true);
   const [mode] = useStore((store) => store.mode);
+  const nodeRef = useRef(null);
   return (
     <LayoutWrapper display={show ? 'flex' : 'none'}>
       <header className="header">
@@ -28,27 +30,30 @@ const CustomLayout = () => {
           <Button>+ Add New Task</Button>
         </div>
       </header>
-      <main className="content">
-        <div className="content_sidebar">
-          <SidebarBoards />
-          <div className="content_actions">
-            <SwitchTheme />
-            <div className="content_button-wrapper">
-              <Button
-                onClick={() => setShow(false)}
-                className="content_hide-button"
-                asLink
-              >
-                <HideSidebarEye />
-                <span>Hide Sidebar</span>
-              </Button>
+      <CSSTransition in={show} timeout={1000} nodeRef={nodeRef}>
+        <main className="content">
+          <div className="content_sidebar">
+            <SidebarBoards />
+            <div className="content_actions">
+              <SwitchTheme />
+              <div className="content_button-wrapper">
+                <Button
+                  onClick={() => setShow(false)}
+                  className="content_hide-button"
+                  asLink
+                >
+                  <HideSidebarEye />
+                  <span>Hide Sidebar</span>
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="content_info">
-          <Tasks />
-        </div>
-      </main>
+          <div className="content_info">
+            <Tasks />
+          </div>
+        </main>
+      </CSSTransition>
+
       {!show && (
         <Button
           asLink

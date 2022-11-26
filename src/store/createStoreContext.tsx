@@ -5,18 +5,7 @@ import React, {
   useCallback,
   useSyncExternalStore,
 } from 'react';
-
-interface Store {
-  first: string;
-  counter: number;
-  mode: 'dark' | 'light';
-}
-
-const appState: Store = {
-  first: 'first',
-  counter: 0,
-  mode: 'light',
-};
+import { appState, Store } from './types';
 
 function useStoreData(): {
   get: () => Store;
@@ -31,7 +20,7 @@ function useStoreData(): {
     initialState = JSON.parse(storageStore);
   }
 
-  const store = useRef(initialState);
+  const store = useRef(appState);
 
   const get = useCallback(() => store.current, []);
 
