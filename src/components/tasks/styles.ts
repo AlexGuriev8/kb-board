@@ -29,26 +29,19 @@ const Container = styled.div`
   gap: 15px;
 
   .column {
-    flex-basis: 200px;
+    flex-basis: 280px;
     /* border: 1px solid #fff; */
   }
 
   .tasks-length {
     display: flex;
+    align-items: center;
     gap: 10px;
     font-weight: bold;
     font-size: 14px;
-
-    .color {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: #49c4e5;
-    }
   }
   .tasks {
     margin-top: 15px;
-    height: 100%;
     width: 100%;
 
     .task {

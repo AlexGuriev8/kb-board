@@ -29,6 +29,7 @@ const ModalContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 
   .modal-enter-done {
     opacity: 1;

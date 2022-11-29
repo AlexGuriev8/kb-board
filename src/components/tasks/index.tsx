@@ -1,6 +1,7 @@
 import useCreateBoard from '../../hooks/create-board/useCreateBoard';
 import { useStore } from '../../store/createStoreContext';
 import Button from '../button';
+import IndexColor from '../index-color';
 import useModal from '../modal/useModal';
 import TasksWrapper, { Container } from './styles';
 
@@ -22,10 +23,10 @@ const Tasks = () => {
         </>
       ) : (
         <Container>
-          {activeBoardColumns.map((column) => (
+          {activeBoardColumns.map((column, index) => (
             <div key={column.id} className="column">
               <div className="tasks-length">
-                <div className="color" />
+                <IndexColor index={index} />
                 {column.name} ({column.tasks.length})
               </div>
               <div className="tasks">
