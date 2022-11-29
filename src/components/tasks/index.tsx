@@ -1,16 +1,46 @@
-import useCreateBoard from '../../hooks/useCreateBoard';
+import useCreateBoard from '../../hooks/create-board/useCreateBoard';
+import { useStore } from '../../store/createStoreContext';
 import Button from '../button';
 import useModal from '../modal/useModal';
-import TasksWrapper from './styles';
+import TasksWrapper, { Container } from './styles';
 
 const Tasks = () => {
   const { isOpen, toggle } = useModal();
   const { renderCreateModal } = useCreateBoard({ isOpen, toggle });
+  const [boards, setStore] = useStore((store) => store.boards);
+
+  const withBoards = boards.length === 0;
+  const activeBoard = boards.find((board) => board.active);
+  const activeBoardColumns = activeBoard?.columns || [];
 
   return (
-    <TasksWrapper>
-      There is no boards. Create a new board to get started.
-      <Button onClick={toggle}>+ Create New Board</Button>
+    <TasksWrapper withBoards={!withBoards}>
+      {withBoards ? (
+        <>
+          There is no boards. Create a new board to get started.
+          <Button onClick={toggle}>+ Create New Board</Button>
+        </>
+      ) : (
+        <Container>
+          {activeBoardColumns.map((column) => (
+            <div key={column.id} className="column">
+              <div className="tasks-length">
+                <div className="color" />
+                {column.name} ({column.tasks.length})
+              </div>
+              <div className="tasks">
+                {column.tasks.map((task) => (
+                  <div key={task.title} className="task">
+                    {task.description}
+                  </div>
+                ))}
+                <div className="task">Description</div>
+              </div>
+            </div>
+          ))}
+        </Container>
+      )}
+
       {renderCreateModal()}
     </TasksWrapper>
   );

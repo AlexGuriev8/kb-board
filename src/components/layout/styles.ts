@@ -98,7 +98,7 @@ const LayoutWrapper = styled.section`
     }
 
     &_info {
-      padding: 10px 20px;
+      padding: 20px 20px;
       flex: 1;
       width: calc(100% - 270px);
       display: flex;

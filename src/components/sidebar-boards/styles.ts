@@ -28,6 +28,15 @@ const SidebarWrapper = styled.div`
     color: ${(props) => props.theme.colors.primary};
     padding: 0 15px;
   }
+
+  .active {
+    color: #fff;
+    background: #635fc7;
+
+    svg {
+      fill: #fff;
+    }
+  }
 `;
 
 export default SidebarWrapper;

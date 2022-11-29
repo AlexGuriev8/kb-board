@@ -20,6 +20,7 @@ export interface Column {
 export interface Board {
   id: string;
   name: string;
+  active: boolean;
   columns: Column[];
 }
 

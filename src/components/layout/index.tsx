@@ -15,7 +15,7 @@ import Button from '../button';
 import SidebarBoards from '../sidebar-boards';
 import { useStore } from '../../store/createStoreContext';
 
-const CustomLayout = () => {
+const Layout = () => {
   const [show, setShow] = useState(true);
   const [mode] = useStore((store) => store.mode);
   const nodeRef = useRef(null);
@@ -27,7 +27,7 @@ const CustomLayout = () => {
         </div>
         <div className="header_menu">
           <div>Platform Launch</div>
-          <Button>+ Add New Task</Button>
+          <Button>Delete Board</Button>
         </div>
       </header>
       <CSSTransition in={show} timeout={1000} nodeRef={nodeRef}>
@@ -67,4 +67,4 @@ const CustomLayout = () => {
   );
 };
 
-export default CustomLayout;
+export default Layout;

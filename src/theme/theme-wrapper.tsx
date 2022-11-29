@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@emotion/react';
 
-import CustomLayout from '../components/custom-layout';
+import Layout from '../components/layout';
 import { useStore } from '../store/createStoreContext';
 
 import { darkTheme, lightTheme, Modes } from './types';
@@ -11,7 +11,7 @@ const ThemeWrapper = () => {
   const theme = mode === Modes.dark ? darkTheme : lightTheme;
   return (
     <ThemeProvider theme={theme}>
-      <CustomLayout />
+      <Layout />
     </ThemeProvider>
   );
 };
