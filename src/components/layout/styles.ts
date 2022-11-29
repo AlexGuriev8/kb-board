@@ -10,7 +10,6 @@ const LayoutWrapper = styled.section`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 100vw;
   position: relative;
   color: ${(props) => props.theme.colors.primary};
 
