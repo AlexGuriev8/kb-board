@@ -30,11 +30,6 @@ const Tasks = () => {
                 {column.name} ({column.tasks.length})
               </div>
               <div className="tasks">
-                {column.tasks.map((task) => (
-                  <div key={task.title} className="task">
-                    {task.description}
-                  </div>
-                ))}
                 <div className="task">Description</div>
               </div>
             </div>

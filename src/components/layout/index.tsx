@@ -14,11 +14,20 @@ import { Modes } from '../../theme/types';
 import Button from '../button';
 import SidebarBoards from '../sidebar-boards';
 import { useStore } from '../../store/createStoreContext';
+import useModal from '../modal/useModal';
+import useCreateBoard from '../../hooks/create-board/useCreateBoard';
 
 const Layout = () => {
   const [show, setShow] = useState(true);
   const [mode] = useStore((store) => store.mode);
   const nodeRef = useRef(null);
+
+  const [boards, setStore] = useStore((store) => store.boards);
+  const { isOpen, toggle } = useModal();
+  const { renderCreateModal } = useCreateBoard({ isOpen, toggle });
+
+  const withBoards = boards.length === 0;
+  const activeBoard = boards.find((board) => board.active);
   return (
     <LayoutWrapper display={show ? 'flex' : 'none'}>
       <header className="header">
@@ -26,8 +35,8 @@ const Layout = () => {
           {mode === Modes.dark ? <KanbanLogoDark /> : <KanbanLogoLight />}
         </div>
         <div className="header_menu">
-          <div>Platform Launch</div>
-          <Button>Delete Board</Button>
+          <div>{activeBoard?.name ?? 'Platform Lp'}</div>
+          {activeBoard && <Button onClick={toggle}>+ Add New Task</Button>}
         </div>
       </header>
       <CSSTransition in={show} timeout={1000} nodeRef={nodeRef}>

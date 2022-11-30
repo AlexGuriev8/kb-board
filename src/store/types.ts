@@ -31,7 +31,30 @@ export interface Store {
 }
 
 export const appState: Store = {
-  boards: [],
+  boards: [
+    {
+      id: '1234234',
+      name: 'Board',
+      active: true,
+      columns: [
+        {
+          id: '1',
+          name: 'To Do',
+          tasks: [],
+        },
+        {
+          id: '2',
+          name: 'In Progress',
+          tasks: [],
+        },
+        {
+          id: '3',
+          name: 'Done',
+          tasks: [],
+        },
+      ],
+    },
+  ],
   counter: 0,
   mode: 'light',
 };
