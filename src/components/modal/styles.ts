@@ -25,7 +25,7 @@ const ModalContainer = styled.div`
   .modal-content {
     display: block;
     background-color: ${(props) => props.theme.colors.modalColor};
-    min-width: 370px;
+    min-width: 420px;
     padding: 1.25rem;
     border-radius: 0.5rem;
   }

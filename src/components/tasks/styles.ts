@@ -30,7 +30,11 @@ const Container = styled.div`
 
   .column {
     flex-basis: 280px;
-    /* border: 1px solid #fff; */
+
+    button {
+      border-radius: 0;
+      margin-top: 30px;
+    }
   }
 
   .tasks-length {

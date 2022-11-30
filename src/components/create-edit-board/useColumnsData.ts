@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Board } from '../store/types';
+import { Board } from '../../store/types';
 
 const defaultState = {
   id: '',
@@ -77,6 +77,10 @@ const useColumnsData = () => {
     setCreateData(defaultState);
   }, []);
 
+  const setOnBoardEdit = useCallback((data: Board) => {
+    setCreateData(data);
+  }, []);
+
   return {
     createData,
     onChange,
@@ -84,6 +88,7 @@ const useColumnsData = () => {
     onDeleteColumn,
     onAddColumn,
     reset,
+    setOnBoardEdit,
   };
 };
 

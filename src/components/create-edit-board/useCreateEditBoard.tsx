@@ -1,15 +1,15 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import Button from '../../components/button';
-import Input from '../../components/input';
-import Modal from '../../components/modal';
 import { useStore } from '../../store/createStoreContext';
+import Button from '../button';
+import Input from '../input';
+import Modal from '../modal';
 import StyledModalContent from './styles';
 import { CreateBoard } from './types';
-import useColumnsData from '../useColumnsData';
+import useColumnsData from './useColumnsData';
 
-const useCreateBoard = ({ isOpen, toggle }: CreateBoard) => {
+const useCreateBoard = ({ isOpen, toggle, mode }: CreateBoard) => {
   const [boards, setStore] = useStore((store) => store.boards);
 
   const {
@@ -19,6 +19,7 @@ const useCreateBoard = ({ isOpen, toggle }: CreateBoard) => {
     onDeleteColumn,
     onAddColumn,
     reset,
+    setOnBoardEdit,
   } = useColumnsData();
 
   const onCreateBoard = useCallback(() => {
@@ -36,13 +37,52 @@ const useCreateBoard = ({ isOpen, toggle }: CreateBoard) => {
     toggle();
   }, [toggle, createData, setStore, boards, reset]);
 
+  const onEditBoard = useCallback(() => {
+    setStore({
+      boards: boards.map((board) =>
+        board.id === createData.id
+          ? {
+              ...board,
+              name: createData.name,
+              columns: createData.columns,
+            }
+          : board
+      ),
+    });
+    reset();
+    toggle();
+  }, [toggle, createData, setStore, boards, reset]);
+
+  const modes = {
+    create: {
+      title: 'Create New Board',
+      action: 'Create New Board',
+      onSubmit: onCreateBoard,
+    },
+    edit: {
+      title: 'Edit Board',
+      action: 'Save Changes',
+      onSubmit: onEditBoard,
+    },
+  };
+
+  useEffect(() => {
+    if (mode === 'edit') {
+      const activeBoard = boards.find((board) => board.active);
+
+      if (activeBoard) {
+        setOnBoardEdit(activeBoard);
+      }
+    }
+  }, [mode, boards, setOnBoardEdit]);
+
   const { name, columns } = createData;
 
   const renderCreateModal = () => {
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
         <StyledModalContent>
-          <h4>Add New Board</h4>
+          <h4>{modes[mode].title}</h4>
           <Input
             name="name"
             label="Board Name"
@@ -83,7 +123,7 @@ const useCreateBoard = ({ isOpen, toggle }: CreateBoard) => {
             >
               + Add New Column
             </Button>
-            <Button onClick={onCreateBoard}>Create New Board</Button>
+            <Button onClick={modes[mode].onSubmit}>{modes[mode].action}</Button>
           </div>
         </StyledModalContent>
       </Modal>

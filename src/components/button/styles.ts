@@ -20,6 +20,15 @@ const COLOR = {
       color: #efeff9;
     }
   `,
+  transparent: css`
+    color: #fff;
+    background: transparent;
+
+    &:hover {
+      background-color: transparent;
+      color: #efeff9;
+    }
+  `,
 };
 
 const DISABLED = css`

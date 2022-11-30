@@ -13,6 +13,11 @@ const LayoutWrapper = styled.section`
   position: relative;
   color: ${(props) => props.theme.colors.primary};
 
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+
   .header {
     height: 100px;
     display: flex;

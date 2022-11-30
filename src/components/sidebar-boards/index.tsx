@@ -5,13 +5,17 @@ import { useStore } from '../../store/createStoreContext';
 
 import SidebarWrapper from './styles';
 import { BoardIcon } from '../icons';
-import useCreateBoard from '../../hooks/create-board/useCreateBoard';
+import useCreateBoard from '../create-edit-board/useCreateEditBoard';
 
 const SidebarBoards = () => {
   const [boards, setStore] = useStore((store) => store.boards);
 
   const { isOpen, toggle } = useModal();
-  const { renderCreateModal } = useCreateBoard({ isOpen, toggle });
+  const { renderCreateModal } = useCreateBoard({
+    isOpen,
+    toggle,
+    mode: 'create',
+  });
 
   const activeBoard = boards.find((board) => board.active);
 
