@@ -1,5 +1,6 @@
+/* eslint-disable react/no-array-index-key */
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { JSXElementConstructor, ReactElement } from 'react';
 
 const Container = styled.div`
   position: relative;
@@ -38,21 +39,14 @@ const Container = styled.div`
   }
 `;
 
-const useClickOutside = (ref, callback) => {
-  const handleClick = (e) => {
-    if (ref.current && !ref.current.contains(e.target)) {
-      callback();
-    }
-  };
-  React.useEffect(() => {
-    document.addEventListener('click', handleClick);
-    return () => {
-      document.removeEventListener('click', handleClick);
-    };
-  });
-};
+type Trigger = ReactElement<any, string | JSXElementConstructor<any>>;
 
-const Dropdown = ({ trigger, menu }: { trigger: any; menu: any[] }) => {
+interface DropdownProps {
+  trigger: Trigger;
+  menu: Trigger[];
+}
+
+const Dropdown = ({ trigger, menu }: DropdownProps) => {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -66,8 +60,8 @@ const Dropdown = ({ trigger, menu }: { trigger: any; menu: any[] }) => {
       })}
       {open ? (
         <ul className="menu">
-          {menu.map((menuItem) => (
-            <li key={menuItem} className="menu-item">
+          {menu.map((menuItem, index) => (
+            <li key={index} className="menu-item">
               {React.cloneElement(menuItem, {
                 onClick: () => {
                   setOpen(false);
