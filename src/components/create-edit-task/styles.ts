@@ -5,6 +5,13 @@ const StyledModalContent = styled.div`
     color: ${(props) => props.theme.colors.heading};
     font-weight: bold;
   }
+
+  textarea {
+    min-width: 420px;
+    max-width: 420px;
+    min-height: 50px;
+  }
+
   .mr-top {
     margin-top: 5px;
   }
@@ -24,12 +31,14 @@ const StyledModalContent = styled.div`
 
   .delete-button {
     margin-top: 10px;
+
     svg {
       fill: #828fa3;
     }
 
     &:hover {
       background-color: transparent;
+
       svg {
         fill: red;
       }
@@ -46,8 +55,8 @@ const StyledModalContent = styled.div`
 
     button {
       margin-left: 10px;
-      border-radius: 50%;
       margin-top: 5px;
+      border-radius: 50%;
     }
   }
 `;

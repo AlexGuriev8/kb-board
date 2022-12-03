@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useStore } from '../../store/createStoreContext';
 import Button from '../button';
+import { DeleteIcon } from '../icons';
 import Input from '../input';
 import Modal from '../modal';
 import StyledModalContent from './styles';
@@ -96,7 +97,7 @@ const useCreateBoard = ({ isOpen, toggle, mode }: CreateBoard) => {
               <div className="column" key={id}>
                 <Input
                   name={id}
-                  label={`Column ${index + 1}`}
+                  label={index === 0 ? 'Board Columns' : ''}
                   value={columnName}
                   placeholder={description}
                   onChange={(e) => onColumnChange(e, id)}
@@ -106,8 +107,9 @@ const useCreateBoard = ({ isOpen, toggle, mode }: CreateBoard) => {
                       disabled={columns.length === 2}
                       asLink
                       onClick={() => onDeleteColumn(id)}
+                      className="delete-button"
                     >
-                      -
+                      <DeleteIcon />
                     </Button>
                   }
                 />

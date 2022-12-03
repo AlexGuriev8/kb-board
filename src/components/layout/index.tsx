@@ -17,6 +17,7 @@ import { useStore } from '../../store/createStoreContext';
 import useModal from '../modal/useModal';
 import useCreateBoard from '../create-edit-board/useCreateEditBoard';
 import Dropdown from '../dropdown';
+import useCreateEditTask from '../create-edit-task/useCreateEditTask';
 
 const Layout = () => {
   const [show, setShow] = useState(true);
@@ -27,10 +28,18 @@ const Layout = () => {
   const withBoards = boards.length === 0;
 
   const { isOpen, toggle } = useModal();
+  const { isOpen: openCreateTask, toggle: onCreateTask } = useModal();
+
   const { renderCreateModal } = useCreateBoard({
     isOpen,
     toggle,
     mode: withBoards ? 'create' : 'edit',
+  });
+
+  const { renderCreateModal: createNewTaskModal } = useCreateEditTask({
+    isOpen: openCreateTask,
+    toggle: onCreateTask,
+    mode: 'create',
   });
 
   const activeBoard = boards.find((board) => board.active);
@@ -51,7 +60,7 @@ const Layout = () => {
           <div>{activeBoard?.name ?? 'Platform Lp'}</div>
           {activeBoard && (
             <div className="flex">
-              <Button onClick={toggle}>+ Add New Task</Button>
+              <Button onClick={onCreateTask}>+ Add New Task</Button>
               <Dropdown
                 trigger={
                   <Button color="transparent">
@@ -116,6 +125,7 @@ const Layout = () => {
         </Button>
       )}
       {renderCreateModal()}
+      {createNewTaskModal()}
     </LayoutWrapper>
   );
 };
