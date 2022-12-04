@@ -64,7 +64,7 @@ const Container = styled.button<ButtonProps>`
   outline: none;
   transition: all 0.2s;
   font-size: 14px;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Lato', sans-serif;
 
   ${(props) => props.color && COLOR[props.color]}
   ${(props) => props.disabled && DISABLED}

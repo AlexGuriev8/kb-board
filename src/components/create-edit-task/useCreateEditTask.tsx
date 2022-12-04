@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useStore } from '../../store/createStoreContext';
@@ -6,6 +6,7 @@ import Button from '../button';
 import { DeleteIcon } from '../icons';
 import Input from '../input';
 import Modal from '../modal';
+import CustomSelect from '../select';
 import TextArea from '../textarea';
 import StyledModalContent from './styles';
 import { CreateBoard } from './types';
@@ -46,18 +47,24 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
       onSubmit: onEditTask,
     },
   };
+  const activeBoard = boards.find((board) => board.active);
 
   useEffect(() => {
     if (mode === 'edit') {
-      const activeBoard = boards.find((board) => board.active);
-
       if (activeBoard) {
         // setOnTaskEdit(activeBoard);
       }
     }
-  }, [mode, boards, setOnTaskEdit]);
+  }, [mode, activeBoard, setOnTaskEdit]);
+
+  const columns = activeBoard?.columns.map((column) => ({
+    value: column.name,
+    label: column.name,
+  }));
 
   const { title, description, subtasks } = taskData;
+
+  const [selected, setSelected] = useState(columns ? columns[0]?.label : '');
 
   const renderCreateModal = () => {
     return (
@@ -110,6 +117,11 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
             <Button color="secondary" onClick={onAddSubtask}>
               + Add New Subtask
             </Button>
+            <CustomSelect
+              selectedValue={selected}
+              options={columns ?? []}
+              label="Status"
+            />
             <Button onClick={modes[mode].onSubmit}>{modes[mode].action}</Button>
           </div>
         </StyledModalContent>

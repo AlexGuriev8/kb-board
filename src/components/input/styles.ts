@@ -15,7 +15,7 @@ const InputWrapper = styled.div`
     padding: 12px 0 12px 17px;
     width: -webkit-fill-available;
     font-size: 12px;
-    height: 8px;
+    height: 10px;
     border: 1px solid #828fa340;
     border-radius: 5px;
     transition: border, color 0.2s ease-in-out;

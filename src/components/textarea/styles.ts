@@ -12,7 +12,7 @@ const InputWrapper = styled.div`
   textarea {
     background-color: ${(props) => props.theme.colors.backgroundColor};
     color: #828fa3;
-    padding: 12px 0 12px 17px;
+    padding: 12px 12px 17px;
     min-width: -webkit-fill-available;
     font-size: 12px;
     min-height: 40px;
