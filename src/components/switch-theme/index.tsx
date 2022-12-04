@@ -6,6 +6,7 @@ import { useStore } from '../../store/createStoreContext';
 
 const SwitchTheme = () => {
   const [mode, setStore] = useStore((store) => store.mode);
+
   const onChange = () => {
     const sMode = mode === Modes.dark ? Modes.light : Modes.dark;
     setStore({ mode: sMode });

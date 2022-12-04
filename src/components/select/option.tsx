@@ -3,10 +3,12 @@
 import React, { ReactNode } from 'react';
 import { useSelectContext } from './selectContext';
 
-const Option: React.FC<{
+interface OptionProps {
   children: ReactNode | ReactNode[];
   value: string;
-}> = ({ children, value }) => {
+}
+
+const Option: React.FC<OptionProps> = ({ children, value }) => {
   const { changeSelectedOption, selectedOption } = useSelectContext();
 
   return (

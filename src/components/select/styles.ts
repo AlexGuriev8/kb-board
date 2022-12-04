@@ -20,6 +20,7 @@ const SelectWrapper = styled.div`
   display: inline-block;
   position: relative;
   min-height: 35px;
+  font-size: 13px;
 
   /* :hover {
     border: 1px solid #635fc7;
@@ -35,7 +36,7 @@ const SelectWrapper = styled.div`
     position: absolute;
     right: 10px;
     top: 16px;
-    border: 7px solid transparent;
+    border: 5px solid transparent;
     border-color: #9999a0 transparent transparent transparent;
   }
 

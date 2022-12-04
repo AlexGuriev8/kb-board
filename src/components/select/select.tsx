@@ -6,12 +6,19 @@ import useOnClickOutside from '../hooks/useOnClickOutside';
 import { SelectContext } from './selectContext';
 import SelectWrapper from './styles';
 
-const Select: React.FC<{
+interface SelectProps {
   children: ReactNode | ReactNode[];
   defaultValue?: string;
   placeholder?: string;
   className?: string;
-}> = ({ children, defaultValue, placeholder, className }) => {
+}
+
+const Select: React.FC<SelectProps> = ({
+  children,
+  defaultValue,
+  placeholder,
+  className,
+}) => {
   const [selectedOption, setSelectedOption] = useState(defaultValue || '');
   const [showDropdown, setShowDropdown] = useState(false);
   const showDropdownHandler = () => setShowDropdown(!showDropdown);

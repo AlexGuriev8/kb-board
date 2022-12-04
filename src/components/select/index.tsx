@@ -2,22 +2,25 @@ import Option from './option';
 import Select from './select';
 import { Container } from './styles';
 
+type TOption = {
+  value: string;
+  label: string;
+};
+interface CustomSelectProps {
+  options: TOption[];
+  placeholder?: string;
+  selectedValue?: string;
+  className?: string;
+  label?: string;
+}
+
 const CustomSelect = ({
   options,
   placeholder = 'Choose an option',
   selectedValue,
   className,
   label,
-}: {
-  options: {
-    value: string;
-    label: string;
-  }[];
-  placeholder?: string;
-  selectedValue?: string;
-  className?: string;
-  label?: string;
-}) => {
+}: CustomSelectProps) => {
   return (
     <Container>
       {label && <label>{label}</label>}

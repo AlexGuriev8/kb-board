@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 
 import { CSSTransition } from 'react-transition-group';
 import {
+  DotsTrigger,
   HideSidebarEye,
   KanbanLogoDark,
   KanbanLogoLight,
@@ -18,6 +19,7 @@ import useModal from '../modal/useModal';
 import useCreateBoard from '../create-edit-board/useCreateEditBoard';
 import Dropdown from '../dropdown';
 import useCreateEditTask from '../create-edit-task/useCreateEditTask';
+import useDeleteConfirmation from '../delete-confimartion-board/useDeleteConfirmation';
 
 const Layout = () => {
   const [show, setShow] = useState(true);
@@ -29,6 +31,7 @@ const Layout = () => {
 
   const { isOpen, toggle } = useModal();
   const { isOpen: openCreateTask, toggle: onCreateTask } = useModal();
+  const { isOpen: isDeleteOpen, toggle: toggleDelete } = useModal();
 
   const { renderCreateModal } = useCreateBoard({
     isOpen,
@@ -42,13 +45,12 @@ const Layout = () => {
     mode: 'create',
   });
 
-  const activeBoard = boards.find((board) => board.active);
+  const { renderDeleteModal } = useDeleteConfirmation({
+    isOpen: isDeleteOpen,
+    toggle: toggleDelete,
+  });
 
-  const onDeleteBoard = () => {
-    setStore({
-      boards: boards.filter((board) => board.id !== activeBoard?.id),
-    });
-  };
+  const activeBoard = boards.find((board) => board.active);
 
   return (
     <LayoutWrapper display={show ? 'flex' : 'none'}>
@@ -64,25 +66,14 @@ const Layout = () => {
               <Dropdown
                 trigger={
                   <Button color="transparent">
-                    <svg
-                      className="fill-medium-grey"
-                      width="5"
-                      height="20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g fillRule="evenodd">
-                        <circle cx="2.308" cy="2.308" r="2.308" />
-                        <circle cx="2.308" cy="10" r="2.308" />
-                        <circle cx="2.308" cy="17.692" r="2.308" />
-                      </g>
-                    </svg>
+                    <DotsTrigger />
                   </Button>
                 }
                 menu={[
                   <Button color="transparent" key="1" onClick={toggle}>
                     Edit Board
                   </Button>,
-                  <Button color="transparent" key="2" onClick={onDeleteBoard}>
+                  <Button color="transparent" key="2" onClick={toggleDelete}>
                     Delete Board
                   </Button>,
                 ]}
@@ -126,6 +117,7 @@ const Layout = () => {
       )}
       {renderCreateModal()}
       {createNewTaskModal()}
+      {renderDeleteModal()}
     </LayoutWrapper>
   );
 };

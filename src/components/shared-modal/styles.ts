@@ -2,7 +2,14 @@ import styled from '@emotion/styled';
 
 const StyledModalContent = styled.div`
   h4 {
-    color: ${(props) => props.theme.colors.heading};
+    color: ${(props: {
+      isDanger?: boolean;
+      theme?: {
+        colors: {
+          heading: string;
+        };
+      };
+    }) => (props.isDanger ? '#EA5555' : props?.theme?.colors.heading)};
     font-weight: bold;
   }
 
@@ -25,7 +32,7 @@ const StyledModalContent = styled.div`
     flex-direction: column;
 
     button {
-      margin-top: 13px;
+      margin-top: 15px;
     }
   }
 
@@ -54,9 +61,9 @@ const StyledModalContent = styled.div`
     align-items: center;
 
     button {
-      margin-left: 10px;
-      margin-top: 5px;
+      margin-left: 8px;
       border-radius: 50%;
+      padding: 0;
     }
   }
 `;

@@ -29,6 +29,14 @@ const COLOR = {
       color: #efeff9;
     }
   `,
+  danger: css`
+    color: #fff;
+    background: #ea5555;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  `,
 };
 
 const DISABLED = css`

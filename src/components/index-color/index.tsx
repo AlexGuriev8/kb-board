@@ -16,8 +16,14 @@ const Container = styled.div`
   background-color: ${(props) => props.color};
 `;
 
-const IndexColor = ({ index }: { index: number }) => {
-  return <Container color={colors[index]} />;
+const IndexColor = ({
+  index,
+  children,
+}: {
+  index: number;
+  children?: React.ReactNode;
+}) => {
+  return <Container color={colors[index]}>{children && children}</Container>;
 };
 
 export default IndexColor;

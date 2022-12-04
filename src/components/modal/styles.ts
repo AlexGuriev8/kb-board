@@ -28,6 +28,21 @@ const ModalContainer = styled.div`
     min-width: 420px;
     padding: 1.25rem;
     border-radius: 0.5rem;
+    overflow-y: scroll;
+    max-height: 90vh;
+  }
+
+  .modal-content::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .modal-content::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px transparent;
+  }
+
+  .modal-content::-webkit-scrollbar-thumb {
+    background-color: #635fc7;
+    outline: 1px solid slategrey;
   }
 `;
 
