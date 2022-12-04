@@ -9,6 +9,9 @@ export const darkTheme = {
     backdrop: 'rgba(0, 0, 0, 0.2)',
     heading: '#fff',
     placeholder: '##D0D0D0',
+    hovers: {
+      danger: '',
+    },
   },
 };
 
@@ -23,6 +26,9 @@ export const lightTheme = {
     backdrop: 'rgba(0, 0, 0, 0.7)',
     heading: '#000112',
     placeholder: '#D0D0D0',
+    hovers: {
+      danger: '',
+    },
   },
 };
 

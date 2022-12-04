@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import styled from '@emotion/styled';
-import React, { JSXElementConstructor, ReactElement } from 'react';
+import React, { JSXElementConstructor, ReactElement, useRef } from 'react';
+import useOnClickOutside from '../hooks/useOnClickOutside';
 
 const Container = styled.div`
   position: relative;
@@ -11,18 +12,21 @@ const Container = styled.div`
     margin: 5px 0;
     padding: 0;
     border-radius: 0.5rem;
+    border: 1px solid #dcdee2;
     right: 0;
     min-width: 130px;
+    background-color: ${(props) => props.theme.colors.backgroundColor};
   }
 
   .menu > li {
     margin: 0;
-    background-color: ${(props) => props.theme.colors.backgroundColor};
     padding: 0.5rem 0.5rem;
   }
 
   .menu > li:hover {
     background-color: ${(props) => props.theme.colors.backgroundColor};
+    border-radius: 0.5rem;
+    color: ${(props) => props.theme.colors.hovers.danger};
   }
 
   .menu > li > button {
@@ -49,12 +53,20 @@ interface DropdownProps {
 const Dropdown = ({ trigger, menu }: DropdownProps) => {
   const [open, setOpen] = React.useState(false);
 
+  const ref = useRef(null);
+
+  const handleClickOutside = () => {
+    setOpen(false);
+  };
+
+  useOnClickOutside(ref, handleClickOutside);
+
   const handleOpen = () => {
     setOpen(!open);
   };
 
   return (
-    <Container>
+    <Container ref={ref}>
       {React.cloneElement(trigger, {
         onClick: handleOpen,
       })}
