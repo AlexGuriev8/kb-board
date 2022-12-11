@@ -3,13 +3,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 import SharedModalContent from '../shared-modal';
 import useColumnsData from './useColumnsData';
-import Button from '../button';
-import Modal from '../modal';
-import Input from '../input';
 
 import { useStore } from '../../store/createStoreContext';
 import { DeleteIcon } from '../icons';
 import { CreateBoard } from './types';
+import Button from '../../ui/button';
+import Modal from '../../ui/modal';
+import Input from '../../ui/input';
 
 const useCreateBoard = ({ isOpen, toggle, mode }: CreateBoard) => {
   const [boards, setStore] = useStore((store) => store.boards);

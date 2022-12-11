@@ -5,6 +5,7 @@ export interface Subtask {
 }
 
 export interface Task {
+  id: string;
   title: string;
   description: string;
   status: string;
@@ -41,7 +42,44 @@ export const appState: Store = {
         {
           id: '1',
           name: 'To Do',
-          tasks: [],
+          tasks: [
+            {
+              id: 'first',
+              title: 'Go for a walk',
+              description: 'I need this by tomorrow',
+              status: 'To Do',
+              subtasks: [
+                {
+                  id: '1',
+                  title: '',
+                  isCompleted: false,
+                },
+                {
+                  id: '2',
+                  title: '',
+                  isCompleted: false,
+                },
+              ],
+            },
+            {
+              id: 'second',
+              title: 'Pick up my headphones',
+              description: 'I should do this',
+              status: 'To Do',
+              subtasks: [
+                {
+                  id: '1',
+                  title: '',
+                  isCompleted: false,
+                },
+                {
+                  id: '2',
+                  title: '',
+                  isCompleted: false,
+                },
+              ],
+            },
+          ],
         },
         {
           id: '2',

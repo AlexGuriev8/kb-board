@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
-import Button from '../button';
-import useModal from '../modal/useModal';
 import { useStore } from '../../store/createStoreContext';
 
 import SidebarWrapper from './styles';
 import { BoardIcon } from '../icons';
 import useCreateBoard from '../create-edit-board/useCreateEditBoard';
+import Button from '../../ui/button';
+import useModal from '../hooks/useModal';
 
 const SidebarBoards = () => {
   const [boards, setStore] = useStore((store) => store.boards);

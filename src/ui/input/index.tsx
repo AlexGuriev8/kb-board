@@ -31,6 +31,7 @@ const Input: FC<InputProps> = ({
           onChange={onChange}
           placeholder={placeholder}
           name={name}
+          data-testid="input-element"
         />
         {withAction}
       </div>
