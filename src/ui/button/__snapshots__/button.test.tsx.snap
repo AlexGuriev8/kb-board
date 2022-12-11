@@ -1,0 +1,23 @@
+// Vitest Snapshot v1
+
+exports[`Button > should render the component correctly 1`] = `
+<div>
+  <button
+    class="css-1murz7k"
+    color="primary"
+  >
+    Test
+  </button>
+</div>
+`;
+
+exports[`Button component > should render the component correctly 1`] = `
+<div>
+  <button
+    class="css-1murz7k"
+    color="primary"
+  >
+    Test
+  </button>
+</div>
+`;

@@ -1,0 +1,27 @@
+// Vitest Snapshot v1
+
+exports[`Input > should render the component correctly 1`] = `
+<div>
+  <div
+    class="test-class css-5zdpsq"
+  >
+    <label
+      for="test"
+    >
+      Test Input
+    </label>
+    <div
+      class="input-box"
+    >
+      <input
+        data-testid="input-element"
+        id="test"
+        name="test"
+        placeholder="Test Placeholder"
+        type="text"
+        value="Test Value"
+      />
+    </div>
+  </div>
+</div>
+`;

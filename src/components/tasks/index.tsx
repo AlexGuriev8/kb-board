@@ -1,12 +1,16 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useStore } from '../../store/createStoreContext';
-import Button from '../button';
+import Button from '../../ui/button';
 import useCreateBoard from '../create-edit-board/useCreateEditBoard';
+import useCreateEditTask from '../create-edit-task/useCreateEditTask';
+import useModal from '../hooks/useModal';
 import IndexColor from '../index-color';
-import useModal from '../modal/useModal';
 import TasksWrapper, { Container } from './styles';
 
 const Tasks = () => {
   const { isOpen, toggle } = useModal();
+  const { isOpen: isToggleEditOpen, toggle: toggleEdit } = useModal();
 
   const [boards, setStore] = useStore((store) => store.boards);
 
@@ -18,6 +22,11 @@ const Tasks = () => {
     isOpen,
     toggle,
     mode: withBoards ? 'create' : 'edit',
+  });
+  const { renderCreateEditModal, setOnTaskEdit } = useCreateEditTask({
+    isOpen: isToggleEditOpen,
+    toggle: toggleEdit,
+    mode: 'edit',
   });
 
   return (
@@ -35,9 +44,24 @@ const Tasks = () => {
                 <IndexColor index={index} />
                 {column.name} ({column.tasks.length})
               </div>
-              <div className="tasks">
-                <div className="task">Description</div>
-              </div>
+              {column.tasks.map((task) => (
+                <div key={task.id} className="tasks">
+                  <div className="task">
+                    <span
+                      className="task-content_title"
+                      onClick={() => {
+                        toggleEdit();
+                        setOnTaskEdit(task);
+                      }}
+                    >
+                      {task.title}
+                    </span>
+                    <div className="task-content_description">
+                      {task.description}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           ))}
           {activeBoardColumns.length < 5 && (
@@ -51,6 +75,7 @@ const Tasks = () => {
       )}
 
       {renderCreateModal()}
+      {renderCreateEditModal()}
     </TasksWrapper>
   );
 };

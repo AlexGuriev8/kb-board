@@ -1,8 +1,10 @@
 import { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useStore } from '../../store/createStoreContext';
 import { Task } from '../../store/types';
 
 const defaultState = {
+  id: '',
   title: '',
   description: '',
   status: '',
@@ -21,7 +23,19 @@ const defaultState = {
 };
 
 const useTasksData = () => {
-  const [taskData, setTaskData] = useState<Task>(defaultState);
+  const [boards] = useStore((store) => store.boards);
+
+  const activeBoard = boards.find((board) => board.active);
+
+  const getDefaultState = useCallback(() => {
+    return {
+      ...defaultState,
+      id: uuidv4(),
+      status: activeBoard?.columns[0].name ?? '',
+    };
+  }, [activeBoard]);
+
+  const [taskData, setTaskData] = useState<Task>(getDefaultState());
 
   const onNameDescriptionChange = useCallback(
     (
@@ -80,11 +94,18 @@ const useTasksData = () => {
   }, [setTaskData]);
 
   const reset = useCallback(() => {
-    setTaskData(defaultState);
-  }, []);
+    setTaskData(getDefaultState());
+  }, [getDefaultState]);
 
   const setOnTaskEdit = useCallback((data: Task) => {
     setTaskData(data);
+  }, []);
+
+  const setStatus = useCallback((status: string) => {
+    setTaskData((prev) => ({
+      ...prev,
+      status,
+    }));
   }, []);
 
   return {
@@ -95,6 +116,7 @@ const useTasksData = () => {
     onAddSubtask,
     setOnTaskEdit,
     reset,
+    setStatus,
   };
 };
 

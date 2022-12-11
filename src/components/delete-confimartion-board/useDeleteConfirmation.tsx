@@ -1,19 +1,14 @@
 import { useCallback, useMemo } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+
+import SharedModalContent from '../shared-modal';
+import Button from '../../ui/button';
+import Modal from '../../ui/modal';
 
 import { useStore } from '../../store/createStoreContext';
-import Button from '../button';
-import Modal from '../modal';
-import SharedModalContent from '../shared-modal';
 import { StyledHeader, StyledActions } from './styles';
+import { DeleteConfirmationProps } from './types';
 
-const useDeleteConfirmation = ({
-  isOpen,
-  toggle,
-}: {
-  isOpen: boolean;
-  toggle: () => void;
-}) => {
+const useDeleteConfirmation = ({ isOpen, toggle }: DeleteConfirmationProps) => {
   const [boards, setStore] = useStore((store) => store.boards);
 
   const activeBoard = boards.find((board) => board.active);
@@ -22,12 +17,13 @@ const useDeleteConfirmation = ({
     setStore({
       boards: boards.filter((board) => board.id !== activeBoard?.id),
     });
-  }, [setStore, boards, activeBoard]);
+    toggle();
+  }, [setStore, boards, activeBoard, toggle]);
 
   const renderHeader = useMemo(() => {
     return (
       <StyledHeader>
-        Are you sure you want to delete the{' '}
+        Are you sure you want to delete the
         <span>{`'${activeBoard?.name}'`}</span> board? This action will remove
         all columns and tasks and cannot be reversed.
       </StyledHeader>

@@ -8,18 +8,19 @@ import SelectWrapper from './styles';
 
 interface SelectProps {
   children: ReactNode | ReactNode[];
-  defaultValue?: string;
+  selectedValue?: string;
   placeholder?: string;
   className?: string;
+  setSelectedValue?: (value: string) => void;
 }
 
 const Select: React.FC<SelectProps> = ({
   children,
-  defaultValue,
+  selectedValue,
   placeholder,
   className,
+  setSelectedValue,
 }) => {
-  const [selectedOption, setSelectedOption] = useState(defaultValue || '');
   const [showDropdown, setShowDropdown] = useState(false);
   const showDropdownHandler = () => setShowDropdown(!showDropdown);
   const selectPlaceholder = placeholder || 'Choose an option';
@@ -30,20 +31,23 @@ const Select: React.FC<SelectProps> = ({
   useOnClickOutside(selectContainerRef, clickOutsideHandler);
 
   const updateSelectedOption = (option: string) => {
-    setSelectedOption(option);
+    setSelectedValue?.(option);
     setShowDropdown(false);
   };
 
   return (
     <SelectContext.Provider
-      value={{ selectedOption, changeSelectedOption: updateSelectedOption }}
+      value={{
+        selectedOption: selectedValue ?? '',
+        changeSelectedOption: updateSelectedOption,
+      }}
     >
       <SelectWrapper ref={selectContainerRef} className={className}>
         <div
           className={showDropdown ? 'selected-text active' : 'selected-text'}
           onClick={showDropdownHandler}
         >
-          {selectedOption.length > 0 ? selectedOption : selectPlaceholder}
+          {selectedValue ?? selectPlaceholder}
         </div>
         <ul
           className={

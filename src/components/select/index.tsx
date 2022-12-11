@@ -12,6 +12,7 @@ interface CustomSelectProps {
   selectedValue?: string;
   className?: string;
   label?: string;
+  setSelectedValue?: (value: string) => void;
 }
 
 const CustomSelect = ({
@@ -20,13 +21,15 @@ const CustomSelect = ({
   selectedValue,
   className,
   label,
+  setSelectedValue,
 }: CustomSelectProps) => {
   return (
     <Container>
       {label && <label>{label}</label>}
       <Select
         placeholder={placeholder}
-        defaultValue={selectedValue}
+        selectedValue={selectedValue}
+        setSelectedValue={setSelectedValue}
         className={className}
       >
         {options.map((option) => (

@@ -28,12 +28,29 @@ const Container = styled.div`
   width: 100%;
   gap: 15px;
 
+  .new-column {
+    flex-basis: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #fff;
+
+      button {
+        border-radius: 0;
+      }
+    }
+  }
+
   .column {
     flex-basis: 280px;
+    padding: 10px;
 
     button {
       border-radius: 0;
-      margin-top: 30px;
+      margin: 0;
     }
   }
 
@@ -50,9 +67,27 @@ const Container = styled.div`
 
     .task {
       background-color: #fff;
-      box-shadow: 0 4px 6px 0px rgba(54, 78, 126, 0.1);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+        0 4px 6px -4px rgb(0 0 0 / 0.1);
       padding: 10px;
       border-radius: 0.5rem;
+      /* cursor: move; */
+
+      .task-content {
+        &_title {
+          cursor: pointer;
+          font-size: 14.5px;
+          font-weight: bold;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        &_description {
+          margin-top: 10px;
+        }
+      }
     }
   }
 `;

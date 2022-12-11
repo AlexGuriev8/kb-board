@@ -1,17 +1,16 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useCallback, useMemo } from 'react';
 
 import SharedModalContent from '../shared-modal';
 import useTasksData from './useTaskData';
 import CustomSelect from '../select';
 import TextArea from '../textarea';
-import Button from '../button';
-import Modal from '../modal';
-import Input from '../input';
 
 import { useStore } from '../../store/createStoreContext';
 import { DeleteIcon } from '../icons';
 import { CreateBoard } from './types';
+import Button from '../../ui/button';
+import Modal from '../../ui/modal';
+import Input from '../../ui/input';
 
 const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
   const [boards, setStore] = useStore((store) => store.boards);
@@ -24,17 +23,66 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
     onAddSubtask,
     setOnTaskEdit,
     reset,
+    setStatus,
   } = useTasksData();
 
+  const activeBoard = boards.find((board) => board.active);
+
   const onCreateTask = useCallback(() => {
+    if (!activeBoard) return;
+
+    const currentBoard = {
+      ...activeBoard,
+      columns: activeBoard.columns.map((column) => {
+        if (column.name === taskData.status) {
+          return {
+            ...column,
+            tasks: [...column.tasks, taskData],
+          };
+        }
+        return column;
+      }),
+    };
+    setStore({
+      boards: boards.map((board) => {
+        if (board.id === currentBoard.id) {
+          return currentBoard;
+        }
+        return board;
+      }),
+    });
     reset();
     toggle();
-  }, [toggle, reset]);
+  }, [toggle, reset, setStore, boards, activeBoard, taskData]);
 
   const onEditTask = useCallback(() => {
+    if (!activeBoard) return;
+
+    const currentBoard = {
+      ...activeBoard,
+      columns: activeBoard.columns.map((column) => {
+        return {
+          ...column,
+          tasks: column.tasks.map((task) => {
+            if (task.status === taskData.status) {
+              return taskData;
+            }
+            return task;
+          }),
+        };
+      }),
+    };
+    setStore({
+      boards: boards.map((board) => {
+        if (board.id === currentBoard.id) {
+          return currentBoard;
+        }
+        return board;
+      }),
+    });
     reset();
     toggle();
-  }, [toggle, reset]);
+  }, [toggle, reset, setStore, boards, activeBoard, taskData]);
 
   const modes = useMemo(() => {
     return {
@@ -51,24 +99,12 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
     };
   }, [onCreateTask, onEditTask]);
 
-  const activeBoard = boards.find((board) => board.active);
-
-  useEffect(() => {
-    if (mode === 'edit') {
-      if (activeBoard) {
-        // setOnTaskEdit(activeBoard);
-      }
-    }
-  }, [mode, activeBoard, setOnTaskEdit]);
-
   const columns = activeBoard?.columns.map((column) => ({
     value: column.name,
     label: column.name,
   }));
 
-  const { title, description, subtasks } = taskData;
-
-  const [selected, setSelected] = useState(columns ? columns[0]?.label : '');
+  const { title, status, description, subtasks } = taskData;
 
   const renderHeader = useMemo(() => {
     return (
@@ -100,14 +136,15 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
           + Add New Subtask
         </Button>
         <CustomSelect
-          selectedValue={selected}
+          selectedValue={status}
+          setSelectedValue={setStatus}
           options={columns ?? []}
           label="Status"
         />
         <Button onClick={modes[mode].onSubmit}>{modes[mode].action}</Button>
       </>
     );
-  }, [onAddSubtask, selected, columns, modes, mode]);
+  }, [onAddSubtask, columns, modes, mode, status, setStatus]);
 
   const getSubtasks = useMemo(() => {
     return (
@@ -123,7 +160,6 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
               className="mr-top"
               withAction={
                 <Button
-                  disabled={subtasks.length === 2}
                   asLink
                   onClick={() => onDeleteTask(id)}
                   className="delete-button"
@@ -138,7 +174,7 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
     );
   }, [subtasks, onTaskChange, onDeleteTask]);
 
-  const renderCreateModal = () => {
+  const renderCreateEditModal = () => {
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
         <SharedModalContent
@@ -152,7 +188,8 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
   };
 
   return {
-    renderCreateModal,
+    renderCreateEditModal,
+    setOnTaskEdit,
   };
 };
 
