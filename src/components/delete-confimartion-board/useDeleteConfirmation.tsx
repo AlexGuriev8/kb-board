@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
+import Button from '@/ui/button';
+import Modal from '@/ui/modal';
 
 import SharedModalContent from '../shared-modal';
-import Button from '../../ui/button';
-import Modal from '../../ui/modal';
 
 import { useStore } from '../../store/createStoreContext';
 import { StyledHeader, StyledActions } from './styles';

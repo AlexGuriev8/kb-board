@@ -1,4 +1,7 @@
 import { useCallback, useMemo } from 'react';
+import Button from '@/ui/button';
+import Modal from '@/ui/modal';
+import Input from '@/ui/input';
 
 import SharedModalContent from '../shared-modal';
 import useTasksData from './useTaskData';
@@ -8,9 +11,6 @@ import TextArea from '../textarea';
 import { useStore } from '../../store/createStoreContext';
 import { DeleteIcon } from '../icons';
 import { CreateBoard } from './types';
-import Button from '../../ui/button';
-import Modal from '../../ui/modal';
-import Input from '../../ui/input';
 
 const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
   const [boards, setStore] = useStore((store) => store.boards);

@@ -30,4 +30,11 @@ module.exports = {
     '@emotion/jsx-import': 'error',
     '@emotion/pkg-renaming': 'error',
   },
+  'import/extensions': [
+    'warn',
+    'always',
+    {
+      ignorePackages: true,
+    },
+  ],
 };

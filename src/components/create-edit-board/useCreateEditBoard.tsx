@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import Button from '@/ui/button';
+import Modal from '@/ui/modal';
+import Input from '@/ui/input';
 
 import SharedModalContent from '../shared-modal';
 import useColumnsData from './useColumnsData';
@@ -7,9 +10,6 @@ import useColumnsData from './useColumnsData';
 import { useStore } from '../../store/createStoreContext';
 import { DeleteIcon } from '../icons';
 import { CreateBoard } from './types';
-import Button from '../../ui/button';
-import Modal from '../../ui/modal';
-import Input from '../../ui/input';
 
 const useCreateBoard = ({ isOpen, toggle, mode }: CreateBoard) => {
   const [boards, setStore] = useStore((store) => store.boards);

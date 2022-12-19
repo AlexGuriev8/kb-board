@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useStore } from '../../store/createStoreContext';
-import Button from '../../ui/button';
+import Button from '@/ui/button';
 import useCreateBoard from '../create-edit-board/useCreateEditBoard';
 import useCreateEditTask from '../create-edit-task/useCreateEditTask';
 import useModal from '../hooks/useModal';

@@ -18,7 +18,7 @@ import useCreateBoard from '../create-edit-board/useCreateEditBoard';
 import Dropdown from '../dropdown';
 import useCreateEditTask from '../create-edit-task/useCreateEditTask';
 import useDeleteConfirmation from '../delete-confimartion-board/useDeleteConfirmation';
-import Button from '../../ui/button';
+import Button from '@/ui/button';
 import useModal from '../hooks/useModal';
 
 const Layout = () => {

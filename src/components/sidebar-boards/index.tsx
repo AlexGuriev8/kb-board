@@ -4,7 +4,7 @@ import { useStore } from '../../store/createStoreContext';
 import SidebarWrapper from './styles';
 import { BoardIcon } from '../icons';
 import useCreateBoard from '../create-edit-board/useCreateEditBoard';
-import Button from '../../ui/button';
+import Button from '@/ui/button';
 import useModal from '../hooks/useModal';
 
 const SidebarBoards = () => {
