@@ -9,7 +9,7 @@ import CustomSelect from '../select';
 import TextArea from '../textarea';
 
 import { useStore } from '../../store/createStoreContext';
-import { DeleteIcon } from '../icons';
+import { DeleteIcon } from '../../icons';
 import { CreateBoard } from './types';
 
 const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {

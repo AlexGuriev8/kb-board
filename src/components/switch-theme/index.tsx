@@ -1,4 +1,4 @@
-import { LightTheme, DarkTheme } from '../icons';
+import { LightTheme, DarkTheme } from '../../icons';
 
 import SwitchWrapper from './styles';
 import { Modes } from '../../theme/types';

@@ -1,6 +1,6 @@
 import React, { JSXElementConstructor, ReactElement, useRef } from 'react';
 
-import useOnClickOutside from '../hooks/useOnClickOutside';
+import useOnClickOutside from '../../hooks/useOnClickOutside';
 import Container from './styles';
 
 type Trigger = ReactElement<any, string | JSXElementConstructor<any>>;

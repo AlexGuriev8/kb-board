@@ -8,7 +8,7 @@ import SharedModalContent from '../shared-modal';
 import useColumnsData from './useColumnsData';
 
 import { useStore } from '../../store/createStoreContext';
-import { DeleteIcon } from '../icons';
+import { DeleteIcon } from '../../icons';
 import { CreateBoard } from './types';
 
 const useCreateBoard = ({ isOpen, toggle, mode }: CreateBoard) => {

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { PickerIcon } from '../icons';
+import { PickerIcon } from '../../icons';
 
 const colors: Record<number, string> = {
   0: '#49C4E5',

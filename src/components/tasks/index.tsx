@@ -4,7 +4,7 @@ import { useStore } from '../../store/createStoreContext';
 import Button from '@/ui/button';
 import useCreateBoard from '../create-edit-board/useCreateEditBoard';
 import useCreateEditTask from '../create-edit-task/useCreateEditTask';
-import useModal from '../hooks/useModal';
+import useModal from '../../hooks/useModal';
 import IndexColor from '../index-color';
 import TasksWrapper, { Container } from './styles';
 

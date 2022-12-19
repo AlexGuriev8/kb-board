@@ -1,13 +1,18 @@
 import { useRef, useState } from 'react';
 
 import { CSSTransition } from 'react-transition-group';
+
+import Button from '@/ui/button';
+import Dropdown from '@/ui/dropdown';
 import {
   DotsTrigger,
   HideSidebarEye,
   KanbanLogoDark,
   KanbanLogoLight,
   ShowSidebarEye,
-} from '../icons';
+} from '@/icons';
+import useModal from '@/hooks/useModal';
+
 import LayoutWrapper from './styles';
 import SwitchTheme from '../switch-theme';
 import Tasks from '../tasks';
@@ -15,11 +20,8 @@ import { Modes } from '../../theme/types';
 import SidebarBoards from '../sidebar-boards';
 import { useStore } from '../../store/createStoreContext';
 import useCreateBoard from '../create-edit-board/useCreateEditBoard';
-import Dropdown from '../dropdown';
 import useCreateEditTask from '../create-edit-task/useCreateEditTask';
 import useDeleteConfirmation from '../delete-confimartion-board/useDeleteConfirmation';
-import Button from '@/ui/button';
-import useModal from '../hooks/useModal';
 
 const Layout = () => {
   const [show, setShow] = useState(true);

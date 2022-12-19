@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React, { ReactNode, useState, useRef } from 'react';
-import useOnClickOutside from '../hooks/useOnClickOutside';
+import useOnClickOutside from '../../hooks/useOnClickOutside';
 import { SelectContext } from './selectContext';
 import SelectWrapper from './styles';
 
