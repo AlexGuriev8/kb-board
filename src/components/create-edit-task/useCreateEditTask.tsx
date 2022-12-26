@@ -1,15 +1,20 @@
 import { useCallback, useMemo } from 'react';
+
+import CustomSelect from '@/ui/select';
+import TextArea from '@/ui/textarea';
 import Button from '@/ui/button';
-import Modal from '@/ui/modal';
 import Input from '@/ui/input';
 
 import SharedModalContent from '../shared-modal';
-import useTasksData from './useTaskData';
-import CustomSelect from '../select';
-import TextArea from '../textarea';
+import ModalHeader from '../shared-modal/modal-header';
+import ModalContent from '../shared-modal/modal-content';
+import ModalActions from '../shared-modal/modal-actions';
 
-import { useStore } from '../../store/createStoreContext';
-import { DeleteIcon } from '../../icons';
+import { useStore } from '@/store/createStoreContext';
+import { Board, Column, Task } from '@/store/types';
+import { DeleteIcon } from '@/icons';
+
+import useTasksData from './useTaskData';
 import { CreateBoard } from './types';
 
 const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
@@ -28,6 +33,21 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
 
   const activeBoard = boards.find((board) => board.active);
 
+  const setBoardToStore = useCallback(
+    (currentBoard: Board) => {
+      if (!activeBoard) return;
+      setStore({
+        boards: boards.map((board) => {
+          if (board.id === currentBoard.id) {
+            return currentBoard;
+          }
+          return board;
+        }),
+      });
+    },
+    [activeBoard, setStore, boards]
+  );
+
   const onCreateTask = useCallback(() => {
     if (!activeBoard) return;
 
@@ -43,21 +63,53 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
         return column;
       }),
     };
-    setStore({
-      boards: boards.map((board) => {
-        if (board.id === currentBoard.id) {
-          return currentBoard;
-        }
-        return board;
-      }),
-    });
+    setBoardToStore(currentBoard);
     reset();
     toggle();
   }, [toggle, reset, setStore, boards, activeBoard, taskData]);
 
-  const onEditTask = useCallback(() => {
-    if (!activeBoard) return;
+  const swapTasks = (currentBoard: Board) => {
+    debugger;
+    // Find the column where the task is located
+    const currentColumn = currentBoard.columns.find((column) =>
+      column.tasks.find((task) => task.id === taskData.id)
+    );
+    // Find the column where the task is going to be moved
+    const newColumn = currentBoard.columns.find(
+      (column) => column.name === taskData.status
+    );
 
+    if (!currentColumn || !newColumn || currentColumn.name === newColumn.name)
+      return currentBoard;
+
+    // Remove the task from the current column
+    const newCurrentColumn = {
+      ...currentColumn,
+      tasks: currentColumn.tasks.filter((task) => task.id !== taskData.id),
+    };
+
+    // Add the task to the new column
+    const newNewColumn = {
+      ...newColumn,
+      tasks: [...newColumn.tasks, taskData],
+    };
+
+    // Swap the columns
+    currentBoard.columns = currentBoard.columns.map((column) => {
+      if (column.id === newCurrentColumn.id) {
+        return newCurrentColumn;
+      }
+      if (column.id === newNewColumn.id) {
+        return newNewColumn;
+      }
+      return column;
+    });
+
+    return currentBoard;
+  };
+
+  const setBoard = useCallback(() => {
+    if (!activeBoard) return;
     const currentBoard = {
       ...activeBoard,
       columns: activeBoard.columns.map((column) => {
@@ -72,17 +124,17 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
         };
       }),
     };
-    setStore({
-      boards: boards.map((board) => {
-        if (board.id === currentBoard.id) {
-          return currentBoard;
-        }
-        return board;
-      }),
-    });
+
+    const newBoard = swapTasks(currentBoard);
+
+    setBoardToStore(newBoard);
+  }, [setStore, boards, activeBoard, taskData, setBoardToStore]);
+
+  const onEditTask = useCallback(() => {
+    setBoard();
     reset();
     toggle();
-  }, [toggle, reset, setStore, boards, activeBoard, taskData]);
+  }, [toggle, reset, setBoard]);
 
   const modes = useMemo(() => {
     return {
@@ -106,84 +158,67 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
 
   const { title, status, description, subtasks } = taskData;
 
-  const renderHeader = useMemo(() => {
-    return (
-      <>
-        <Input
-          name="title"
-          label="Title"
-          value={title}
-          placeholder='e.g. "Take a coffee break"'
-          onChange={onNameDescriptionChange}
-          className="mr-header"
-        />
-        <TextArea
-          name="description"
-          label="Description"
-          value={description}
-          placeholder='e.g. "You deserve it!"'
-          onChange={onNameDescriptionChange}
-          className="mr-header"
-        />
-      </>
-    );
-  }, [title, description, onNameDescriptionChange]);
-
-  const renderActions = useMemo(() => {
-    return (
-      <>
-        <Button color="secondary" onClick={onAddSubtask}>
-          + Add New Subtask
-        </Button>
-        <CustomSelect
-          selectedValue={status}
-          setSelectedValue={setStatus}
-          options={columns ?? []}
-          label="Status"
-        />
-        <Button onClick={modes[mode].onSubmit}>{modes[mode].action}</Button>
-      </>
-    );
-  }, [onAddSubtask, columns, modes, mode, status, setStatus]);
-
-  const getSubtasks = useMemo(() => {
-    return (
-      <>
-        {subtasks.map(({ id, title: titleName }, index) => (
-          <div className="column" key={id}>
-            <Input
-              name={id}
-              label={index === 0 ? 'Subtasks' : ''}
-              value={titleName}
-              placeholder={`e.g. "Task ${index + 1}"`}
-              onChange={(e) => onTaskChange(e, id)}
-              className="mr-top"
-              withAction={
-                <Button
-                  asLink
-                  onClick={() => onDeleteTask(id)}
-                  className="delete-button"
-                >
-                  <DeleteIcon />
-                </Button>
-              }
-            />
-          </div>
-        ))}
-      </>
-    );
-  }, [subtasks, onTaskChange, onDeleteTask]);
-
   const renderCreateEditModal = () => {
     return (
-      <Modal isOpen={isOpen} toggle={toggle}>
-        <SharedModalContent
-          title={modes[mode].title}
-          header={renderHeader}
-          columns={getSubtasks}
-          actions={renderActions}
-        />
-      </Modal>
+      <SharedModalContent
+        isOpen={isOpen}
+        toggleOpen={toggle}
+        title={modes[mode].title}
+      >
+        <ModalHeader>
+          <Input
+            name="title"
+            label="Title"
+            value={title}
+            placeholder='e.g. "Take a coffee break"'
+            onChange={onNameDescriptionChange}
+            className="mr-header"
+          />
+          <TextArea
+            name="description"
+            label="Description"
+            value={description}
+            placeholder='e.g. "You deserve it!"'
+            onChange={onNameDescriptionChange}
+            className="mr-header"
+          />
+        </ModalHeader>
+        <ModalContent>
+          {subtasks.map(({ id, title: titleName }, index) => (
+            <div className="column" key={id}>
+              <Input
+                name={id}
+                label={index === 0 ? 'Subtasks' : ''}
+                value={titleName}
+                placeholder={`e.g. "Task ${index + 1}"`}
+                onChange={(e) => onTaskChange(e, id)}
+                className="mr-top"
+                withAction={
+                  <Button
+                    asLink
+                    onClick={() => onDeleteTask(id)}
+                    className="delete-button"
+                  >
+                    <DeleteIcon />
+                  </Button>
+                }
+              />
+            </div>
+          ))}
+        </ModalContent>
+        <ModalActions>
+          <Button color="secondary" onClick={onAddSubtask}>
+            + Add New Subtask
+          </Button>
+          <CustomSelect
+            selectedValue={status}
+            setSelectedValue={setStatus}
+            options={columns ?? []}
+            label="Status"
+          />
+          <Button onClick={modes[mode].onSubmit}>{modes[mode].action}</Button>
+        </ModalActions>
+      </SharedModalContent>
     );
   };
 

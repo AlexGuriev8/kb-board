@@ -21,7 +21,6 @@ function useStoreData(): {
   }
 
   const store = useRef(appState);
-
   const get = useCallback(() => store.current, []);
 
   const subscribers = useRef(new Set<() => void>());

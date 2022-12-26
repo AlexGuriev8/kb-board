@@ -1,8 +1,9 @@
 import { useCallback, useMemo } from 'react';
 import Button from '@/ui/button';
-import Modal from '@/ui/modal';
 
 import SharedModalContent from '../shared-modal';
+import ModalHeader from '../shared-modal/modal-header';
+import ModalActions from '../shared-modal/modal-actions';
 
 import { useStore } from '../../store/createStoreContext';
 import { StyledHeader, StyledActions } from './styles';
@@ -45,14 +46,15 @@ const useDeleteConfirmation = ({ isOpen, toggle }: DeleteConfirmationProps) => {
 
   const renderDeleteModal = () => {
     return (
-      <Modal isOpen={isOpen} toggle={toggle}>
-        <SharedModalContent
-          title="Delete Board"
-          danger
-          actions={renderActions}
-          header={renderHeader}
-        />
-      </Modal>
+      <SharedModalContent
+        isOpen={isOpen}
+        toggleOpen={toggle}
+        title="Delete Board"
+        danger
+      >
+        <ModalHeader>{renderHeader}</ModalHeader>
+        <ModalActions>{renderActions}</ModalActions>
+      </SharedModalContent>
     );
   };
 

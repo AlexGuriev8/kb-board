@@ -52,7 +52,7 @@ const StyledModalContent = styled.div`
     }
   }
 
-  .columns-wrapper {
+  .modal_content {
     margin: 10px 0;
   }
 

@@ -1,28 +1,38 @@
+import Modal from '@/ui/modal';
 import React from 'react';
 import StyledModalContent from './styles';
 
 interface SharedModalContentProps {
   title: string;
+  isOpen: boolean;
+  toggleOpen: () => void;
   danger?: boolean;
-  columns?: React.ReactNode;
-  header?: React.ReactNode;
-  actions?: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const SharedModalContent = ({
   title = 'Add New Board',
   danger,
-  columns,
-  header,
-  actions,
+  children,
+  isOpen,
+  toggleOpen,
 }: SharedModalContentProps) => {
+  const { ModalHeader, ModalContent, ModalActions } = React.Children.toArray(
+    children
+  ).reduce((acc, child: any) => {
+    acc[child.type.displayName] = child;
+
+    return acc;
+  }, {} as Record<string, React.ReactNode>);
   return (
-    <StyledModalContent isDanger={danger}>
-      <h4>{title}</h4>
-      {header && header}
-      <div className="columns-wrapper">{columns && columns}</div>
-      <div className="actions">{actions && actions}</div>
-    </StyledModalContent>
+    <Modal isOpen={isOpen} toggle={toggleOpen}>
+      <StyledModalContent isDanger={danger}>
+        <h4>{title}</h4>
+        {ModalHeader && ModalHeader}
+        {ModalContent && ModalContent}
+        {ModalActions && ModalActions}
+      </StyledModalContent>
+    </Modal>
   );
 };
 

@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '@/ui/button';
-import Modal from '@/ui/modal';
 import Input from '@/ui/input';
 
 import SharedModalContent from '../shared-modal';
+import ModalHeader from '../shared-modal/modal-header';
+import ModalContent from '../shared-modal/modal-content';
+import ModalActions from '../shared-modal/modal-actions';
 import useColumnsData from './useColumnsData';
 
 import { useStore } from '../../store/createStoreContext';
@@ -143,14 +145,15 @@ const useCreateBoard = ({ isOpen, toggle, mode }: CreateBoard) => {
 
   const renderCreateModal = () => {
     return (
-      <Modal isOpen={isOpen} toggle={toggle}>
-        <SharedModalContent
-          title={modes[mode].title}
-          header={renderHeader}
-          columns={getModalColumns}
-          actions={renderActions}
-        />
-      </Modal>
+      <SharedModalContent
+        isOpen={isOpen}
+        toggleOpen={toggle}
+        title={modes[mode].title}
+      >
+        <ModalHeader>{renderHeader}</ModalHeader>
+        <ModalContent>{getModalColumns}</ModalContent>
+        <ModalActions>{renderActions}</ModalActions>
+      </SharedModalContent>
     );
   };
 
