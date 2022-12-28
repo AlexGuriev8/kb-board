@@ -61,7 +61,8 @@ const Container = styled.div`
     font-weight: bold;
     font-size: 14px;
   }
-  .tasks {
+
+  .task-wrapper {
     margin-top: 15px;
     width: 100%;
 

@@ -16,6 +16,7 @@ import { DeleteIcon } from '@/icons';
 
 import useTasksData from './useTaskData';
 import { CreateBoard } from './types';
+import swapTasks from '@/utils/swap-tasks';
 
 const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
   const [boards, setStore] = useStore((store) => store.boards);
@@ -68,46 +69,6 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
     toggle();
   }, [toggle, reset, setStore, boards, activeBoard, taskData]);
 
-  const swapTasks = (currentBoard: Board) => {
-    debugger;
-    // Find the column where the task is located
-    const currentColumn = currentBoard.columns.find((column) =>
-      column.tasks.find((task) => task.id === taskData.id)
-    );
-    // Find the column where the task is going to be moved
-    const newColumn = currentBoard.columns.find(
-      (column) => column.name === taskData.status
-    );
-
-    if (!currentColumn || !newColumn || currentColumn.name === newColumn.name)
-      return currentBoard;
-
-    // Remove the task from the current column
-    const newCurrentColumn = {
-      ...currentColumn,
-      tasks: currentColumn.tasks.filter((task) => task.id !== taskData.id),
-    };
-
-    // Add the task to the new column
-    const newNewColumn = {
-      ...newColumn,
-      tasks: [...newColumn.tasks, taskData],
-    };
-
-    // Swap the columns
-    currentBoard.columns = currentBoard.columns.map((column) => {
-      if (column.id === newCurrentColumn.id) {
-        return newCurrentColumn;
-      }
-      if (column.id === newNewColumn.id) {
-        return newNewColumn;
-      }
-      return column;
-    });
-
-    return currentBoard;
-  };
-
   const setBoard = useCallback(() => {
     if (!activeBoard) return;
     const currentBoard = {
@@ -125,7 +86,7 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
       }),
     };
 
-    const newBoard = swapTasks(currentBoard);
+    const newBoard = swapTasks(currentBoard, taskData);
 
     setBoardToStore(newBoard);
   }, [setStore, boards, activeBoard, taskData, setBoardToStore]);
