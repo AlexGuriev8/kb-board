@@ -20,7 +20,7 @@ function useStoreData(): {
     initialState = JSON.parse(storageStore);
   }
 
-  const store = useRef(appState);
+  const store = useRef(initialState);
   const get = useCallback(() => store.current, []);
 
   const subscribers = useRef(new Set<() => void>());

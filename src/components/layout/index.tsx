@@ -14,9 +14,10 @@ import {
 import useModal from '@/hooks/useModal';
 
 import LayoutWrapper from './styles';
+import { Modes } from '../create-edit-board/types';
 import SwitchTheme from '../switch-theme';
 import Tasks from '../tasks';
-import { Modes } from '../../theme/types';
+import { Modes as ThemeModes } from '../../theme/types';
 import SidebarBoards from '../sidebar-boards';
 import { useStore } from '../../store/createStoreContext';
 import useCreateBoard from '../create-edit-board/useCreateEditBoard';
@@ -28,7 +29,7 @@ const Layout = () => {
   const [mode] = useStore((store) => store.mode);
   const nodeRef = useRef(null);
 
-  const [boards, setStore] = useStore((store) => store.boards);
+  const [boards] = useStore((store) => store.boards);
   const withBoards = boards.length === 0;
 
   const { isOpen, toggle } = useModal();
@@ -38,7 +39,7 @@ const Layout = () => {
   const { renderCreateModal } = useCreateBoard({
     isOpen,
     toggle,
-    mode: withBoards ? 'create' : 'edit',
+    mode: withBoards ? Modes.CREATE : Modes.EDIT,
   });
 
   const { renderCreateEditModal } = useCreateEditTask({
@@ -58,7 +59,7 @@ const Layout = () => {
     <LayoutWrapper display={show ? 'flex' : 'none'}>
       <header className="header">
         <div className="header_logo">
-          {mode === Modes.dark ? <KanbanLogoDark /> : <KanbanLogoLight />}
+          {mode === ThemeModes.dark ? <KanbanLogoDark /> : <KanbanLogoLight />}
         </div>
         <div className="header_menu">
           <div>{activeBoard?.name ?? 'Platform Lp'}</div>

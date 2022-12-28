@@ -11,12 +11,12 @@ import ModalContent from '../shared-modal/modal-content';
 import ModalActions from '../shared-modal/modal-actions';
 
 import { useStore } from '@/store/createStoreContext';
-import { Board, Column, Task } from '@/store/types';
 import { DeleteIcon } from '@/icons';
 
 import useTasksData from './useTaskData';
 import { CreateBoard } from './types';
 import swapTasks from '@/utils/swap-tasks';
+import useSaveActiveBoard from '@/hooks/useSaveActiveBoard';
 
 const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
   const [boards, setStore] = useStore((store) => store.boards);
@@ -32,22 +32,7 @@ const useCreateEditTask = ({ isOpen, toggle, mode }: CreateBoard) => {
     setStatus,
   } = useTasksData();
 
-  const activeBoard = boards.find((board) => board.active);
-
-  const setBoardToStore = useCallback(
-    (currentBoard: Board) => {
-      if (!activeBoard) return;
-      setStore({
-        boards: boards.map((board) => {
-          if (board.id === currentBoard.id) {
-            return currentBoard;
-          }
-          return board;
-        }),
-      });
-    },
-    [activeBoard, setStore, boards]
-  );
+  const { activeBoard, setBoardToStore } = useSaveActiveBoard();
 
   const onCreateTask = useCallback(() => {
     if (!activeBoard) return;

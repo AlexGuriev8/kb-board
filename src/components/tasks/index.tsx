@@ -8,17 +8,19 @@ import useCreateEditTask from '../create-edit-task/useCreateEditTask';
 import IndexColor from '../index-color';
 import TasksWrapper, { Container } from './styles';
 import { Task } from './task';
-import { Board, Task as TTask } from '@/store/types';
-import { useCallback } from 'react';
+import { Task as TTask } from '@/store/types';
+import { Modes } from '../create-edit-board/types';
+import useSaveActiveBoard from '@/hooks/useSaveActiveBoard';
 
 const Tasks = () => {
   const { isOpen, toggle } = useModal();
   const { isOpen: isToggleEditOpen, toggle: toggleEdit } = useModal();
 
-  const [boards, setStore] = useStore((store) => store.boards);
+  const { activeBoard, setBoardToStore } = useSaveActiveBoard();
+
+  const [boards] = useStore((store) => store.boards);
 
   const withBoards = boards.length === 0;
-  const activeBoard = boards.find((board) => board.active);
   const activeBoardColumns = activeBoard?.columns || [];
 
   const columns = activeBoard?.columns || [];
@@ -26,34 +28,19 @@ const Tasks = () => {
   const { renderCreateModal } = useCreateBoard({
     isOpen,
     toggle,
-    mode: withBoards ? 'create' : 'edit',
+    mode: withBoards ? Modes.CREATE : Modes.EDIT,
   });
 
   const { renderCreateEditModal, setOnTaskEdit } = useCreateEditTask({
     isOpen: isToggleEditOpen,
     toggle: toggleEdit,
-    mode: 'edit',
+    mode: Modes.EDIT,
   });
 
   const onTitleClick = (task: TTask) => {
     toggleEdit();
     setOnTaskEdit(task);
   };
-
-  const setBoardToStore = useCallback(
-    (currentBoard: Board) => {
-      if (!activeBoard) return;
-      setStore({
-        boards: boards.map((board) => {
-          if (board.id === currentBoard.id) {
-            return currentBoard;
-          }
-          return board;
-        }),
-      });
-    },
-    [activeBoard, setStore, boards]
-  );
 
   const onDragEnd = (result: DropResult) => {
     if (!activeBoard) return;
@@ -62,10 +49,10 @@ const Tasks = () => {
     const { source, destination } = result;
 
     if (source.droppableId !== destination?.droppableId) {
+      //move tasks between columns
       const sourceColumn = columns.find(
         (column) => column.id === source.droppableId
       );
-
       const destinationColumn = columns.find(
         (column) => column.id === destination.droppableId
       );
@@ -104,12 +91,12 @@ const Tasks = () => {
 
       setBoardToStore(currentBoard);
     } else {
+      //reorder tasks in the same column
       const column = columns.find((column) => column.id === source.droppableId);
 
       if (!column) return;
 
       const copiedTasks = [...column.tasks];
-
       const [removed] = copiedTasks.splice(source.index, 1);
 
       copiedTasks.splice(destination.index, 0, removed);

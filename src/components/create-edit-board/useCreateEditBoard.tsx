@@ -72,16 +72,6 @@ const useCreateBoard = ({ isOpen, toggle, mode }: CreateBoard) => {
     };
   }, [onCreateBoard, onEditBoard]);
 
-  useEffect(() => {
-    if (mode === 'edit') {
-      const activeBoard = boards.find((board) => board.active);
-
-      if (activeBoard) {
-        setOnBoardEdit(activeBoard);
-      }
-    }
-  }, [mode, boards, setOnBoardEdit]);
-
   const { name, columns } = createData;
 
   const renderHeader = useMemo(() => {
@@ -142,6 +132,16 @@ const useCreateBoard = ({ isOpen, toggle, mode }: CreateBoard) => {
       </>
     );
   }, [columns, onColumnChange, onDeleteColumn]);
+
+  useEffect(() => {
+    if (mode === 'edit') {
+      const activeBoard = boards.find((board) => board.active);
+
+      if (activeBoard) {
+        setOnBoardEdit(activeBoard);
+      }
+    }
+  }, [mode, boards, setOnBoardEdit]);
 
   const renderCreateModal = () => {
     return (
