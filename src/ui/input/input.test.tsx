@@ -33,7 +33,7 @@ describe('Input', () => {
     const input = screen.getByTestId('input-element');
 
     expect(input).toHaveAttribute('id', 'test');
-    expect(input).toHaveAttribute('value', 'Test Value');
+    expect(input).toHaveAttribute('value', 'Test Valu');
     expect(input).toHaveAttribute('placeholder', 'Test Placeholder');
     expect(input).toHaveAttribute('name', 'test');
   });
