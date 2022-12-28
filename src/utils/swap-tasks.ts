@@ -1,17 +1,19 @@
 import { Board, Task } from '@/store/types';
 
 const swapTasks = (currentBoard: Board, taskData: Task) => {
+  let board = { ...currentBoard };
+
   // Find the column where the task is located
-  const currentColumn = currentBoard.columns.find((column) =>
+  const currentColumn = board.columns.find((column) =>
     column.tasks.find((task) => task.id === taskData.id)
   );
   // Find the column where the task is going to be moved
-  const newColumn = currentBoard.columns.find(
+  const newColumn = board.columns.find(
     (column) => column.name === taskData.status
   );
 
   if (!currentColumn || !newColumn || currentColumn.name === newColumn.name)
-    return currentBoard;
+    return board;
 
   // Remove the task from the current column
   const newCurrentColumn = {
@@ -26,7 +28,7 @@ const swapTasks = (currentBoard: Board, taskData: Task) => {
   };
 
   // Swap the columns
-  currentBoard.columns = currentBoard.columns.map((column) => {
+  board.columns = board.columns.map((column) => {
     if (column.id === newCurrentColumn.id) {
       return newCurrentColumn;
     }
@@ -36,7 +38,7 @@ const swapTasks = (currentBoard: Board, taskData: Task) => {
     return column;
   });
 
-  return currentBoard;
+  return board;
 };
 
 export default swapTasks;
